@@ -477,7 +477,7 @@ export default function Home() {
               </p>
             </div>
             <Link
-              href="/login"
+              href="/waitlist"
               className="inline-flex items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-semibold text-sky-700 shadow-sm hover:bg-slate-50"
             >
               Request early access
@@ -499,8 +499,8 @@ export default function Home() {
               <Link href="#about" className="hover:text-slate-700">
                 FAQ
               </Link>
-              <Link href="/login" className="hover:text-slate-700">
-                Login
+              <Link href="/waitlist" className="hover:text-slate-700">
+                Waitlist
               </Link>
             </div>
           </div>

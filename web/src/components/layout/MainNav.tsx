@@ -7,7 +7,7 @@ const SECTIONS = [
   { href: "#how-it-works", label: "How it works" },
   { href: "#for-clinics", label: "For Clinics" },
   { href: "#about", label: "About" },
-  { href: "/login", label: "Login" },
+  { href: "/waitlist", label: "Waitlist" },
 ];
 
 export function MainNav() {
@@ -33,7 +33,7 @@ export function MainNav() {
             </Link>
           ))}
           <Link
-            href="/login"
+            href="/waitlist"
             className="inline-flex items-center justify-center rounded-full bg-sky-500 px-4 py-2 text-xs font-semibold text-white shadow-sm shadow-sky-200 transition hover:bg-sky-600"
           >
             Get Early Access
@@ -65,7 +65,7 @@ export function MainNav() {
               </Link>
             ))}
             <Link
-              href="/login"
+              href="/waitlist"
               className="mt-1 inline-flex items-center justify-center rounded-full bg-sky-500 px-4 py-2 text-xs font-semibold text-white shadow-sm shadow-sky-200 transition hover:bg-sky-600"
               onClick={() => setOpen(false)}
             >
