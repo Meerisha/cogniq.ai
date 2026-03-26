@@ -276,7 +276,7 @@ export default function MockupSection() {
                     <div className="mx-3 mt-3 rounded-2xl bg-emerald-50 p-3">
                       <div className="flex items-center gap-3">
                         <SparkIconCircle bg="#EDE9FE" stroke="#7C3AED" />
-                        <p className="text-[13px] font-semibold leading-relaxed">
+                        <p className="text-[13px] font-normal leading-relaxed text-slate-700">
                           Hi! Based on today's check-in and [child's] therapy
                           goals, here are 3 things to try this afternoon.
                         </p>
@@ -284,7 +284,7 @@ export default function MockupSection() {
                     </div>
 
                     <div className="mx-3 mt-3 space-y-3 overflow-auto pb-24">
-                      <div className="rounded-2xl border border-slate-100 bg-white p-3">
+                      <div className="rounded-2xl bg-white/90 p-3">
                         <div className="flex items-start gap-3">
                           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-sky-100 text-sky-600">
                             <SketchIconSpeech stroke="#2563EB" />
@@ -293,7 +293,7 @@ export default function MockupSection() {
                             <p className="text-[10px] font-semibold uppercase tracking-wide text-[#3B82F6]">
                               SPEECH · 12 MIN
                             </p>
-                            <p className="mt-1 font-semibold text-slate-900">
+                            <p className="mt-1 font-medium text-slate-900">
                               Color pointing game
                             </p>
                           </div>
@@ -308,10 +308,10 @@ export default function MockupSection() {
                             onClick={() =>
                               setSaved((prev) => ({ ...prev, 0: !prev[0] }))
                             }
-                            className={`flex-1 rounded-xl border px-2 py-2 text-[12px] font-semibold transition ${
+                            className={`flex-1 rounded-xl px-2 py-2 text-[12px] font-semibold transition ${
                               saved[0]
-                                ? "border-[#3B82F6] bg-[#DBEAFE] text-[#2563EB]"
-                                : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+                                ? "bg-[#DBEAFE] text-[#2563EB]"
+                                : "bg-white text-slate-700 hover:bg-slate-50"
                             }`}
                           >
                             ⭐ Save idea
@@ -321,10 +321,10 @@ export default function MockupSection() {
                             onClick={() =>
                               setDone((prev) => ({ ...prev, 0: !prev[0] }))
                             }
-                            className={`flex-1 rounded-xl border px-2 py-2 text-[12px] font-semibold transition ${
+                            className={`flex-1 rounded-xl px-2 py-2 text-[12px] font-semibold transition ${
                               done[0]
-                                ? "border-emerald-600 bg-emerald-50 text-emerald-700"
-                                : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+                                ? "bg-emerald-50 text-emerald-700"
+                                : "bg-white text-slate-700 hover:bg-slate-50"
                             }`}
                           >
                             {done[0] ? "✓ Mark done" : "✓ Mark done"}
@@ -332,7 +332,7 @@ export default function MockupSection() {
                         </div>
                       </div>
 
-                      <div className="rounded-2xl border border-slate-100 bg-white p-3">
+                      <div className="rounded-2xl bg-white/90 p-3">
                         <div className="flex items-start gap-3">
                           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
                             <SketchIconStar stroke="#059669" />
@@ -341,7 +341,7 @@ export default function MockupSection() {
                             <p className="text-[10px] font-semibold uppercase tracking-wide text-[#10B981]">
                               SOCIAL · 10 MIN
                             </p>
-                            <p className="mt-1 font-semibold text-slate-900">
+                            <p className="mt-1 font-medium text-slate-900">
                               Mirror faces game
                             </p>
                           </div>
@@ -357,10 +357,10 @@ export default function MockupSection() {
                             onClick={() =>
                               setSaved((prev) => ({ ...prev, 1: !prev[1] }))
                             }
-                            className={`flex-1 rounded-xl border px-2 py-2 text-[12px] font-semibold transition ${
+                            className={`flex-1 rounded-xl px-2 py-2 text-[12px] font-semibold transition ${
                               saved[1]
-                                ? "border-[#10B981] bg-[#D1FAE5] text-[#059669]"
-                                : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+                                ? "bg-[#D1FAE5] text-[#059669]"
+                                : "bg-white text-slate-700 hover:bg-slate-50"
                             }`}
                           >
                             ⭐ Save idea
@@ -370,10 +370,10 @@ export default function MockupSection() {
                             onClick={() =>
                               setDone((prev) => ({ ...prev, 1: !prev[1] }))
                             }
-                            className={`flex-1 rounded-xl border px-2 py-2 text-[12px] font-semibold transition ${
+                            className={`flex-1 rounded-xl px-2 py-2 text-[12px] font-semibold transition ${
                               done[1]
-                                ? "border-emerald-600 bg-emerald-50 text-emerald-700"
-                                : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+                                ? "bg-emerald-50 text-emerald-700"
+                                : "bg-white text-slate-700 hover:bg-slate-50"
                             }`}
                           >
                             ✓ Mark done
@@ -381,7 +381,7 @@ export default function MockupSection() {
                         </div>
                       </div>
 
-                      <div className="rounded-2xl border border-slate-100 bg-white p-3">
+                      <div className="rounded-2xl bg-white/90 p-3">
                         <div className="flex items-start gap-3">
                           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-violet-100 text-violet-700">
                             <SketchIconHeart stroke="#8B5CF6" />
@@ -390,7 +390,7 @@ export default function MockupSection() {
                             <p className="text-[10px] font-semibold uppercase tracking-wide text-[#8B5CF6]">
                               ROUTINE · 5 MIN
                             </p>
-                            <p className="mt-1 font-semibold text-slate-900">
+                            <p className="mt-1 font-medium text-slate-900">
                               Goodbye song
                             </p>
                           </div>
@@ -406,10 +406,10 @@ export default function MockupSection() {
                             onClick={() =>
                               setSaved((prev) => ({ ...prev, 2: !prev[2] }))
                             }
-                            className={`flex-1 rounded-xl border px-2 py-2 text-[12px] font-semibold transition ${
+                            className={`flex-1 rounded-xl px-2 py-2 text-[12px] font-semibold transition ${
                               saved[2]
-                                ? "border-[#8B5CF6] bg-[#EDE9FE] text-[#7C3AED]"
-                                : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+                                ? "bg-[#EDE9FE] text-[#7C3AED]"
+                                : "bg-white text-slate-700 hover:bg-slate-50"
                             }`}
                           >
                             ⭐ Save idea
@@ -419,10 +419,10 @@ export default function MockupSection() {
                             onClick={() =>
                               setDone((prev) => ({ ...prev, 2: !prev[2] }))
                             }
-                            className={`flex-1 rounded-xl border px-2 py-2 text-[12px] font-semibold transition ${
+                            className={`flex-1 rounded-xl px-2 py-2 text-[12px] font-semibold transition ${
                               done[2]
-                                ? "border-emerald-600 bg-emerald-50 text-emerald-700"
-                                : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+                                ? "bg-emerald-50 text-emerald-700"
+                                : "bg-white text-slate-700 hover:bg-slate-50"
                             }`}
                           >
                             ✓ Mark done
