@@ -16,6 +16,11 @@ export type ChildProfileHeader = {
   lastUpdatedAt: string | null;
 };
 
+export type MoodTrendPoint = {
+  date: string;
+  moodScore: number;
+};
+
 function initialsFromName(name: string) {
   const parts = name.trim().split(/\s+/).filter(Boolean);
   const first = parts[0]?.[0] ?? "";
@@ -74,6 +79,68 @@ function mockChildProfileHeader(childId: string): ChildProfileHeader {
     ],
     lastUpdatedAt: new Date(Date.now() - 1000 * 60 * 45).toISOString(),
   };
+}
+
+function startOfDayIso(date: Date): string {
+  const d = new Date(date);
+  d.setHours(0, 0, 0, 0);
+  return d.toISOString();
+}
+
+function clampMoodScore(value: number): number {
+  if (Number.isNaN(value)) return 3;
+  return Math.min(5, Math.max(1, Math.round(value)));
+}
+
+export async function getMoodTrend30Days(childId: string): Promise<MoodTrendPoint[]> {
+  if (!childId) return [];
+
+  const supabase = createSupabaseServerClient();
+  const now = new Date();
+  const start = new Date(now);
+  start.setDate(now.getDate() - 29);
+  const sinceIso = startOfDayIso(start);
+
+  try {
+    const { data, error } = await supabase
+      .from("parent_checkins")
+      .select("date, mood_score")
+      .eq("child_id", childId)
+      .gte("date", sinceIso.slice(0, 10))
+      .order("date", { ascending: true });
+
+    if (error) {
+      console.error("getMoodTrend30Days error", error);
+      const mock: MoodTrendPoint[] = [];
+      for (let i = 0; i < 8; i++) {
+        const day = new Date(now);
+        day.setDate(now.getDate() - (7 - i) * 3);
+        mock.push({
+          date: day.toISOString().slice(0, 10),
+          moodScore: [2, 3, 3, 4, 3, 4, 5, 4][i] ?? 3,
+        });
+      }
+      return mock;
+    }
+
+    if (!data) return [];
+
+    const rows = data as { date?: string; mood_score?: number | null }[];
+    const points: MoodTrendPoint[] = rows
+      .map((r) => {
+        if (!r.date || r.mood_score == null) return null;
+        return {
+          date: r.date,
+          moodScore: clampMoodScore(Number(r.mood_score)),
+        };
+      })
+      .filter((p): p is MoodTrendPoint => !!p);
+
+    return points;
+  } catch (err) {
+    console.error("getMoodTrend30Days unexpected", err);
+    return [];
+  }
 }
 
 /**
