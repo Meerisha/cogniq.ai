@@ -10,6 +10,11 @@ const BRAND = {
   bg: "#FAFAF8",
 };
 
+type TherapistUser = {
+  full_name: string | null;
+  avatar_url: string | null;
+};
+
 type TherapistProfileRow = {
   id: string;
   user_id: string;
@@ -25,11 +30,52 @@ type TherapistProfileRow = {
   review_count: number | null;
   location_city: string | null;
   location_state: string | null;
-  users?: {
-    full_name: string | null;
-    avatar_url: string | null;
-  } | null;
+  users: TherapistUser | null;
 };
+
+/** Supabase may return `users` as object or single-element array from FK joins. */
+function normalizeJoinedUser(raw: unknown): TherapistUser | null {
+  if (raw == null) return null;
+  if (Array.isArray(raw)) {
+    const first = raw[0];
+    if (first && typeof first === "object") {
+      const o = first as Record<string, unknown>;
+      return {
+        full_name: (o.full_name as string | null | undefined) ?? null,
+        avatar_url: (o.avatar_url as string | null | undefined) ?? null,
+      };
+    }
+    return null;
+  }
+  if (typeof raw === "object") {
+    const o = raw as Record<string, unknown>;
+    return {
+      full_name: (o.full_name as string | null | undefined) ?? null,
+      avatar_url: (o.avatar_url as string | null | undefined) ?? null,
+    };
+  }
+  return null;
+}
+
+function mapTherapistProfileFromDb(row: Record<string, unknown>): TherapistProfileRow {
+  return {
+    id: String(row.id ?? ""),
+    user_id: String(row.user_id ?? ""),
+    bio: (row.bio as string | null) ?? null,
+    credentials: (row.credentials as string | null) ?? null,
+    specialties: (row.specialties as string[] | null) ?? null,
+    years_experience: (row.years_experience as number | null) ?? null,
+    hourly_rate: (row.hourly_rate as number | null) ?? null,
+    session_types: (row.session_types as string | null) ?? null,
+    languages: (row.languages as string[] | null) ?? null,
+    is_verified: (row.is_verified as boolean | null) ?? null,
+    rating_avg: (row.rating_avg as number | null) ?? null,
+    review_count: (row.review_count as number | null) ?? null,
+    location_city: (row.location_city as string | null) ?? null,
+    location_state: (row.location_state as string | null) ?? null,
+    users: normalizeJoinedUser(row.users),
+  };
+}
 
 type ReviewRow = {
   id: string;
@@ -283,12 +329,13 @@ export default function TherapistProfilePage({ params }: PageProps) {
         return;
       }
 
-      setProfile(p as TherapistProfileRow);
+      const mapped = mapTherapistProfileFromDb(p as Record<string, unknown>);
+      setProfile(mapped);
 
       const { data: r, error: rErr } = await supabase
         .from("reviews")
         .select("id, parent_id, rating, body, created_at")
-        .eq("therapist_id", (p as TherapistProfileRow).user_id)
+        .eq("therapist_id", mapped.user_id)
         .order("created_at", { ascending: false })
         .limit(50);
 
