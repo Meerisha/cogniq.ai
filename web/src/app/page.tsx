@@ -114,7 +114,7 @@ export default function Home() {
 
         {/* How it works */}
         <section className="space-y-6">
-          <h2 className="text-xl font-semibold text-slate-900 md:text-2xl">
+          <h2 className="text-center text-xl font-semibold text-slate-900 md:text-2xl">
             How COGNIQA AI fits into real life
           </h2>
           <div className="grid gap-8 md:grid-cols-3">
