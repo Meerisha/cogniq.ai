@@ -2,6 +2,11 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { createServerClient } from "@supabase/ssr";
 
+async function getCookieStore() {
+  const c = cookies() as any;
+  return typeof c?.then === "function" ? await c : c;
+}
+
 function ageFromDob(dob: string | null): number | null {
   if (!dob) return null;
   const d = new Date(dob);
@@ -62,7 +67,7 @@ export async function GET() {
     return NextResponse.json({ error: "Server is not configured." }, { status: 500 });
   }
 
-  const cookieStore = await cookies();
+  const cookieStore = await getCookieStore();
   const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
     cookies: {
       getAll() {

@@ -4,6 +4,11 @@ import { createServerClient } from "@supabase/ssr";
 
 type Body = { progress_notes?: string };
 
+async function getCookieStore() {
+  const c = cookies() as any;
+  return typeof c?.then === "function" ? await c : c;
+}
+
 function fallbackSummary(progressNotes: string) {
   const trimmed = progressNotes.trim();
   if (!trimmed) {
@@ -55,7 +60,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Server is not configured." }, { status: 500 });
   }
 
-  const cookieStore = await cookies();
+  const cookieStore = await getCookieStore();
   const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
     cookies: {
       getAll() {
