@@ -21,19 +21,31 @@ const SPECIALTIES = [
 type Specialty = (typeof SPECIALTIES)[number];
 type SessionFilter = "virtual" | "in-person";
 
-type TherapistRow = {
-  id: string;
-  user_id: string;
-  specialties: string[] | null;
-  rating_avg: number | null;
-  review_count: number | null;
-  hourly_rate: number | null;
-  session_types: string | null;
-  location_city: string | null;
-  location_state: string | null;
-  is_verified: boolean | null;
-  users?: { full_name: string | null; avatar_url: string | null } | null;
-};
+type JoinedUser = { full_name: string | null; avatar_url: string | null };
+
+/** Supabase may return `users` as object or array from FK joins. */
+function normalizeJoinedUser(raw: unknown): JoinedUser | null {
+  if (raw == null) return null;
+  if (Array.isArray(raw)) {
+    const first = raw[0];
+    if (first && typeof first === "object") {
+      const o = first as Record<string, unknown>;
+      return {
+        full_name: (o.full_name as string | null | undefined) ?? null,
+        avatar_url: (o.avatar_url as string | null | undefined) ?? null,
+      };
+    }
+    return null;
+  }
+  if (typeof raw === "object") {
+    const o = raw as Record<string, unknown>;
+    return {
+      full_name: (o.full_name as string | null | undefined) ?? null,
+      avatar_url: (o.avatar_url as string | null | undefined) ?? null,
+    };
+  }
+  return null;
+}
 
 function Heading({ children }: { children: React.ReactNode }) {
   return (
@@ -139,20 +151,23 @@ export default function TherapistsPage() {
         return;
       }
 
-      const rows = (data ?? []) as TherapistRow[];
-      const mapped: TherapistCardProps[] = rows.map((r) => ({
-        id: r.id,
-        name: r.users?.full_name ?? "Therapist",
-        avatar_url: r.users?.avatar_url ?? null,
-        specialties: r.specialties ?? [],
-        rating_avg: Number(r.rating_avg ?? 0),
-        review_count: Number(r.review_count ?? 0),
-        hourly_rate: Number(r.hourly_rate ?? 0),
-        session_types: r.session_types ?? "virtual",
-        location_city: r.location_city ?? "",
-        location_state: r.location_state ?? "",
-        is_verified: Boolean(r.is_verified),
-      }));
+      const rawRows = (data ?? []) as Record<string, unknown>[];
+      const mapped: TherapistCardProps[] = rawRows.map((r) => {
+        const u = normalizeJoinedUser(r.users);
+        return {
+          id: String(r.id ?? ""),
+          name: u?.full_name ?? "Therapist",
+          avatar_url: u?.avatar_url ?? null,
+          specialties: (r.specialties as string[] | null) ?? [],
+          rating_avg: Number(r.rating_avg ?? 0),
+          review_count: Number(r.review_count ?? 0),
+          hourly_rate: Number(r.hourly_rate ?? 0),
+          session_types: (r.session_types as string | null) ?? "virtual",
+          location_city: (r.location_city as string | null) ?? "",
+          location_state: (r.location_state as string | null) ?? "",
+          is_verified: Boolean(r.is_verified),
+        };
+      });
 
       setAll(mapped);
       setLoading(false);
