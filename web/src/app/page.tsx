@@ -16,14 +16,16 @@ export default function Home() {
             Built for ASD families &amp; care teams
           </div>
           <h1 className="max-w-3xl text-3xl font-semibold leading-tight text-slate-900 md:text-5xl">
-            Stay in sync with your child&apos;s ASD progress—without more screen
-            time or paperwork.
+            Find the right therapist.
+            <br />
+            Track every session.
+            <br />
+            All in one place.
           </h1>
           <p className="max-w-2xl text-base leading-relaxed text-slate-600 md:text-lg">
-            COGNIQA AI connects parents, therapists, and schools in one gentle,
-            visual space. Log a 2‑minute daily check‑in, see progress at a
-            glance, and get AI‑generated home activities that match real therapy
-            goals.
+            COGNIQA AI connects ASD families with verified therapists — book
+            sessions, log daily check-ins, and get AI-generated home activities
+            matched to real therapy goals.
           </p>
           <div className="flex flex-col items-center justify-center gap-3 text-sm md:flex-row">
             <Link
